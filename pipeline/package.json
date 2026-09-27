@@ -1,0 +1,16 @@
+{
+  "name": "make-my-textbook-pipeline",
+  "version": "1.0.0",
+  "description": "Markdown manuscript to typeset PDF (markdown-it + Vivliostyle)",
+  "scripts": {},
+  "author": "ganggangstone",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@vivliostyle/cli": "^11.3.3",
+    "markdown-it": "^15.0.2",
+    "markdown-it-anchor": "^10.0.0",
+    "prismjs": "^1.27.0"
+  },
+  "private": true
+}

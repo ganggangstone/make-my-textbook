@@ -1,0 +1,252 @@
+/* ============================================================
+   교재 디자인 — 편집 디자인 단행본 (Vivliostyle / Paged Media)
+   명조 본문 + Pretendard 제목·라벨 + 모노 캡션.
+   흰 바탕, 포인트 보라 하나, 형광 강조는 아주 조금. 여백을 넉넉하게.
+   ============================================================ */
+
+
+/* ---------- 토큰 ----------
+   색 토큰은 여기 두지 않고 theme/tokens.css에서 가져온다.
+   포인트 색을 바꾸려면 theme/presets/ 아래 다른 프리셋을 theme/tokens.css로 복사한다. */
+@import url("./tokens.css");
+
+:root {
+  --font-body: serif; /* set per language in lang-<LANG>.css */
+  --font-head: sans-serif;
+  --font-mono: Menlo, monospace;
+
+  --fs: 9.6pt;
+  --lh: 1.82;
+}
+
+/* ---------- 판형 ---------- */
+@page {
+  size: 176mm 250mm;               /* B5 */
+  margin: 20mm 19mm 22mm 21mm;
+  font-family: var(--font-mono);
+  font-size: 6.8pt;
+  color: var(--ink-3);
+  @bottom-left { content: counter(page); letter-spacing: .08em; }
+}
+@page :left  { @top-left  { content: string(part-run, first-except); letter-spacing: .04em; } }
+@page :right { @top-right { content: string(chap-title, first-except); letter-spacing: .04em; } @bottom-left { content: none; } @bottom-right { content: counter(page); letter-spacing: .08em; } }
+@page :first { @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+@page part   { @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+@page chap   { @top-left { content: none; } @top-right { content: none; } }
+@page toc    { @top-left { content: none; } @top-right { content: none; } }
+@page :blank { @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+/* 표지 전용 페이지 — 전면 색 표지는 판면 밖으로 색을 밀어낼 수 없으므로
+   (Vivliostyle이 세로 방향으로 잘라낸다) 페이지 여백 자체를 0으로 둔다. */
+@page cover { margin: 0; @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+
+/* ---------- 기본 ---------- */
+html { font-family: var(--font-body); font-size: var(--fs); line-height: var(--lh); color: var(--text); background: transparent; }
+body { margin: 0; text-align: left; overflow-wrap: break-word; }
+h1, h2, h3, h4, h5, figcaption, th, td, p.goal, div.review, nav.toc { text-align: left; }
+/* line breaking, hyphenation and fonts: theme/lang-<LANG>.css */
+p { margin: 0 0 .9em; orphans: 2; widows: 2; }
+p + p { text-indent: 0; }
+strong { font-weight: 700; color: var(--ink); }
+em { font-style: normal; background: linear-gradient(transparent 62%, var(--mark) 62%); }
+a { color: var(--violet-deep); text-decoration: none; }
+hr { border: 0; height: 0; margin: 1.8em 0; border-top: .4pt solid var(--line); }
+
+/* ---------- 제목 ---------- */
+h1, h2, h3, h4, h5 { font-family: var(--font-head); color: var(--ink); line-height: 1.3; break-after: avoid; }
+
+/* 부(部) 표지 */
+h1 { page: part; break-before: page; string-set: part-title content(); margin: 34mm 0 0; font-size: 24pt; font-weight: 700; letter-spacing: -.03em; }
+h1::before { content: attr(data-eyebrow); display: block; font-family: var(--font-mono); font-size: 7.5pt; font-weight: 500; letter-spacing: .28em; color: var(--violet); margin-bottom: 7mm; padding-top: 3mm; border-top: .5pt solid var(--ink); }
+h1 .part-no { display: block; font-size: 11pt; font-weight: 500; color: var(--ink-3); letter-spacing: 0; margin-bottom: 2mm; }
+h1 + p { page: part; color: var(--ink-2); margin: 8mm 0 0; font-size: 9.5pt; line-height: 1.9; }
+
+/* 장(章): 절제된 숫자 + 영문 eyebrow, 들여쓰기 없이 왼쪽 정렬 */
+h2 { break-before: page; string-set: chap-title content(), part-run attr(data-part); font-size: 17pt; font-weight: 700; letter-spacing: -.025em; margin: 0 0 9mm; }
+h2::before { content: attr(data-eyebrow); display: block; font-family: var(--font-mono); font-size: 7pt; font-weight: 500; letter-spacing: .24em; color: var(--ink-3); padding-bottom: 2.4mm; border-bottom: .5pt solid var(--ink); margin-bottom: 4mm; }
+h2:not([data-eyebrow])::before { content: "NOTES"; }
+h2 .chap-no { display: block; font-family: var(--font-head); font-size: 34pt; font-weight: 200; line-height: 1; letter-spacing: -.04em; color: var(--violet); margin: 10mm 0 3mm -.6mm; }
+h2 .chap-t { display: block; }
+
+/* 절 */
+h3 { font-size: 12pt; font-weight: 700; margin: 2.6em 0 1em; letter-spacing: -.02em; }
+h3 .sec-no { font-family: var(--font-mono); font-size: 8pt; font-weight: 500; color: var(--violet); letter-spacing: .02em; margin-right: .7em; vertical-align: .12em; }
+h4 { font-size: 10pt; font-weight: 700; margin: 1.8em 0 .6em; }
+h5 { font-size: 9.6pt; font-weight: 600; margin: 1.4em 0 .5em; color: var(--ink-2); }
+
+/* ---------- 학습 목표 · 연습 · 복습 · 원문 읽기 ---------- */
+p.goal { font-family: var(--font-head); font-size: 8.8pt; line-height: 1.75; color: var(--ink-2); margin: 0 0 2.4em; padding: 0; break-inside: avoid; }
+p.goal strong:first-child { display: block; font-family: var(--font-head); font-size: 7.5pt; font-weight: 600; color: var(--violet); margin-bottom: 1mm; }
+
+/* 개념 블록 — 상자 없이 작은 라벨 + 큰 이름 + 넉넉한 윗여백으로 구분한다 */
+p.concept { margin: 2em 0 .6em; break-inside: avoid; }
+span.concept-tag { display: block; font-family: var(--font-head); font-size: 6.8pt; font-weight: 600; letter-spacing: .14em; color: var(--violet); margin-bottom: 1.1mm; }
+strong.concept-name { font-family: var(--font-head); font-size: 10.6pt; font-weight: 700; color: var(--ink); }
+strong.concept-name + br { display: none; }
+p.concept > strong.concept-name::after { content: ""; display: inline-block; width: .5em; }
+
+/* 비교 목록의 반복 라벨("왜?" 등) — 본문에 묻히지 않게 작은 배지로 */
+p.badge-line { margin: .45em 0 .25em; }
+span.badge-q { font-family: var(--font-head); font-size: 7.2pt; font-weight: 600; color: var(--violet-deep); background: var(--violet-soft); padding: .18em .55em; border-radius: 2pt; }
+
+p.exercise { font-size: 9.7pt; margin: 1.4em 0; padding-top: .8em; border-top: .5pt solid var(--line); break-inside: avoid; }
+p.exercise strong:first-child { font-family: var(--font-head); color: var(--violet-deep); margin-right: .3em; }
+
+div.review { border-top: .5pt solid var(--ink); padding: .9em 0 .2em; margin: 2em 0; font-size: 9.6pt; break-inside: avoid; }
+div.review .review-title { font-family: var(--font-head); margin: 0 0 .5em; }
+div.review .review-title strong { color: var(--violet-deep); margin-right: .4em; }
+div.review ol { margin: 0; padding-left: 1.6em; }
+div.review li { margin-bottom: .45em; }
+
+blockquote { margin: 1.3em 0; padding: 0 0 0 4mm; border-left: .5pt solid var(--line); color: var(--ink-2); font-size: 9.7pt; line-height: 1.8; }
+blockquote p { margin: 0 0 .45em; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote strong:first-child { font-family: var(--font-head); }
+blockquote.quote-src { border-left: .8pt solid var(--violet); background: none; }
+blockquote.quote-src > p:first-child > strong:first-child { color: var(--violet-deep); }
+
+/* ---------- 번역 캡션 ---------- */
+p.tr, li.tr { font-family: var(--font-head); font-size: 8.8pt; line-height: 1.6; color: var(--ink-2); margin: -.35em 0 .9em; padding-left: .9em; border-left: 1pt solid var(--line); }
+blockquote p.tr { margin-top: -.1em; }
+pre + p.tr { margin-top: -.6em; }
+.tr-line { display: block; font-family: var(--font-head); font-size: 8.8pt; line-height: 1.6; color: var(--ink-2); margin: .25em 0 .2em; padding-left: .9em; border-left: 1pt solid var(--line); }
+.tr-inline { font-family: var(--font-head); font-size: .88em; color: var(--ink-2); }
+.tr-inline::before { content: "("; color: var(--ink-3); margin-left: .15em; } .tr-inline::after { content: ")"; color: var(--ink-3); }
+
+/* ---------- 용어 사전 연결 ---------- */
+a.gl { color: inherit; text-decoration: underline dotted var(--violet); text-decoration-thickness: .5pt; text-underline-offset: .2em; }
+a.gl::after { content: "§"; font-family: var(--font-mono); font-size: 6.2pt; color: var(--violet); vertical-align: super; margin-left: .1em; }
+a.gl-first { font-family: var(--font-mono); font-size: 6.8pt; color: var(--ink-3); font-weight: 400; margin-left: .3em; }
+a.gl-first::before { content: var(--first-seen) target-counter(attr(href url), page); }
+
+/* ---------- 근거 등급 캡슐 — 색 채움 대신 얇은 테두리 ---------- */
+.grade { font-family: var(--font-mono); font-size: 6.4pt; font-weight: 500; letter-spacing: .02em; color: var(--violet-deep); margin: 0 .1em 0 .2em; white-space: nowrap; }
+.grade::before { content: "["; } .grade::after { content: "]"; }
+.grade-general, .grade-inferred, .grade-absent, .grade-community, .grade-comment, .grade-design { color: var(--ink-3); }
+.grade-measured { color: #4f7a4a; }
+
+/* ---------- 각주 ---------- */
+sup.footnote-ref { line-height: 0; }
+sup.footnote-ref a, a.footnote-backref { font-family: var(--font-mono); font-size: 6.2pt; font-weight: 500; color: var(--violet); margin-left: .05em; }
+section.footnotes { font-size: 8.5pt; line-height: 1.65; color: var(--ink-2); }
+section.footnotes hr { display: none; }
+section.footnotes ol { list-style: none; padding-left: 0; columns: 1; }
+section.footnotes .fn-no { position: absolute; left: 0; font-family: var(--font-mono); font-weight: 500; color: var(--violet); }
+section.footnotes li { position: relative; margin-bottom: .55em; padding-left: 2.6em; break-inside: avoid; }
+section.footnotes li p { margin: 0; }
+section.footnotes li strong { font-family: var(--font-head); }
+
+/* ---------- 표 ---------- */
+table { width: 100%; border-collapse: collapse; margin: 1.3em 0 1.6em; font-family: var(--font-head); font-size: 8.6pt; line-height: 1.55; break-inside: auto; }
+thead { display: table-header-group; }
+th { text-align: left; font-weight: 600; color: var(--ink); background: none; border-bottom: .8pt solid var(--ink); padding: .5em .55em; font-size: 8pt; }
+td { vertical-align: top; text-align: left; padding: .5em .55em; border-bottom: .4pt solid var(--line); }
+tr { break-inside: avoid; }
+td code, th code { font-size: 8pt; }
+
+/* ---------- 코드 ---------- */
+code, pre { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+code { font-family: var(--font-mono); font-size: .86em; word-break: break-all; }
+code.inl { background: var(--card); padding: .08em .3em .1em; border-radius: 0; color: var(--ink); }
+code.inl.short { white-space: nowrap; word-break: normal; }
+code.inl.long { overflow-wrap: anywhere; }
+code.inl.path { color: var(--ink-2); }
+pre { text-align: left; font-family: var(--font-mono); font-size: 7pt; line-height: 1.65; background: var(--code-bg); border-top: .5pt solid var(--line); border-bottom: .5pt solid var(--line); border-radius: 0; padding: .9em 1em; margin: 1.3em 0 .5em; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); break-inside: avoid; }
+pre code { font-size: inherit; background: none; padding: 0; }
+/* 줄 번호 칸과 코드 칸을 나눠, 접힌 줄이 코드 칸 안에서 이어지게 한다 */
+pre.numbered { break-inside: auto; }
+pre.numbered .line { display: block; position: relative; padding-left: 3.2em; break-inside: avoid; }
+pre.numbered .ln { position: absolute; left: 0; top: 0; width: 2em; text-align: right; color: var(--syn-ln); }
+pre.numbered .lc { display: block; }
+
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: var(--syn-comment); }
+.token.keyword, .token.boolean, .token.builtin, .token.atrule, .token.important { color: var(--syn-keyword); }
+.token.class-name, .token.return-type, .token.tag, .token.key { color: var(--syn-type); }
+.token.function, .token.decorator, .token.attr-name { color: var(--syn-func); }
+.token.variable, .token.parameter, .token.property { color: var(--syn-var); }
+.token.string, .token.char, .token.attr-value, .token.interpolation-string { color: var(--syn-string); }
+.token.number { color: var(--syn-number); }
+.token.punctuation, .token.operator { color: var(--syn-punct); }
+.token.namespace, .token.namespace .token { color: var(--ink); }
+
+p.code-cap { font-family: var(--font-mono); font-size: 6.8pt; letter-spacing: .04em; color: var(--ink-3); text-align: left; margin: 0 0 1.6em; }
+
+/* ---------- 목록 ---------- */
+ul, ol { padding-left: 1.5em; margin: .4em 0 1em; }
+li { margin-bottom: .35em; }
+li p { margin: 0 0 .3em; }
+ul > li::marker { color: var(--violet); }
+
+/* ---------- 표지 ---------- */
+/* height를 100%로 두면 페이지 조판에서 해석되지 않아 flex의 margin-top:auto가
+   안 먹는다(표지 요소가 전부 위로 몰린다). @page(250mm)에서 위아래 여백(20+22)을
+   뺀 판면 높이를 직접 준다 — 페이지 크기를 바꾸면 이 값도 같이 고쳐야 한다. */
+.cover { page: part; break-after: page; height: 208mm; display: flex; flex-direction: column; }
+.cover .eyebrow { font-family: var(--font-mono); color: var(--ink); letter-spacing: .26em; font-size: 7pt; padding-top: 3mm; border-top: .5pt solid var(--ink); }
+.cover .cover-big { font-family: var(--font-head); font-weight: 200; font-size: 96pt; line-height: .82; letter-spacing: -.06em; color: var(--violet); margin: 20mm 0 0 -2.4mm; }
+.cover h1.title { page: auto; break-before: auto; margin: 14mm 0 0; font-size: 21pt; font-weight: 700; line-height: 1.34; letter-spacing: -.035em; string-set: none; }
+.cover h1.title::before { content: none; }
+.cover h1.title .hl { background: linear-gradient(transparent 58%, var(--mark) 58%); }
+.cover .subtitle { font-size: 9.5pt; color: var(--ink-2); margin: 5mm 0 0; line-height: 1.7; }
+.cover .meta { font-family: var(--font-mono); font-size: 6.8pt; letter-spacing: .06em; color: var(--ink-3); line-height: 1.8; margin-top: auto; padding-top: 3mm; border-top: .5pt solid var(--ink); }
+
+/* 시리즈 표지 — 서점·마켓 목록의 작은 썸네일에서 제목이 읽혀야 하므로
+   제목을 지배적으로 키우고 로고타입을 줄인다. 색 채움 띠는 본문의
+   "카드·색 채움 금지" 원칙에 대한 표지 한정 예외다(썸네일 대비 확보). */
+/* 전면 포인트 색 표지 — 마켓·서점 목록은 대부분 흰 배경이라, 흰 표지는
+   배경에 섞여 존재감이 사라진다. 음수 여백으로 판면 밖까지 색을 깐다. */
+.cover-series { page: cover; background: var(--violet); color: #fff; box-sizing: border-box;
+  width: 176mm; height: 250mm; margin: 0; padding: 0 21mm 22mm 21mm; }
+.cover-series .series-band { display: flex; align-items: baseline; justify-content: space-between; gap: 4mm;
+  background: #fff; color: var(--violet); margin: 0 -21mm; padding: 7mm 21mm 6mm 21mm; }
+.cover-series .series-name { font-family: var(--font-head); font-size: 11pt; font-weight: 700; letter-spacing: -.02em; }
+.cover-series .series-vol { font-family: var(--font-mono); font-size: 12pt; font-weight: 700; letter-spacing: .02em; }
+.cover-series .eyebrow { border-top: none; padding-top: 9mm; font-size: 6.6pt; letter-spacing: .2em; color: var(--ink-3); }
+.cover-series .cover-big { font-size: 46pt; font-weight: 300; margin: 5mm 0 0 -1.2mm; }
+/* 썸네일에서는 제목 한두 줄만 살아남는다 — 크게, 짧게, 굵게.
+   제목과 인용을 포인트 색 한 가지로 묶는 조판(디자인 평론집 계열)이다. */
+.cover-series h1.title { font-size: 68pt; font-weight: 800; line-height: 1.04; margin: 11mm 0 0;
+  letter-spacing: -.06em; color: #fff; }
+.cover-series .subtitle { font-family: var(--font-head); font-size: 11.5pt; line-height: 1.6; color: rgba(255,255,255,.85); margin-top: 7mm; font-weight: 500; }
+/* 표지 인용 — 가운데 빈 공간을 책의 논지 한 문장으로 채운다 */
+.cover-series .cover-quote { margin: auto 0; padding: 0; border: none; background: none;
+  font-family: var(--font-head); font-size: 16.5pt; font-weight: 800; line-height: 1.5;
+  letter-spacing: -.04em; color: #fff; text-indent: -.42em; }
+.cover-series .author-line { margin-top: 9mm; padding: 4.5mm 0 0; border-top: 1.2pt solid rgba(255,255,255,.7);
+  font-family: var(--font-head); font-size: 10pt; font-weight: 600; color: #fff; line-height: 1.55; }
+.cover-series .meta { margin-top: 2.5mm; padding-top: 0; border-top: none; color: rgba(255,255,255,.65); }
+
+/* ---------- 머리말 ---------- */
+.front { page: toc; }
+.front > h2 { break-before: auto; }
+.front > h2::before { content: "PREFACE"; }
+
+/* ---------- 목차 ---------- */
+nav.toc { page: toc; break-before: page; font-family: var(--font-head); text-align: left; }
+nav.toc > h2 { break-before: auto; string-set: none; }
+nav.toc > h2::before { content: "CONTENTS"; }
+nav.toc ol { list-style: none; padding: 0; margin: 0; }
+nav.toc li { margin: 0; break-inside: avoid; }
+nav.toc a { display: flex; align-items: baseline; color: var(--ink); text-decoration: none; }
+nav.toc a::after { content: target-counter(attr(href url), page); font-family: var(--font-mono); font-size: 7.5pt; color: var(--ink-3); margin-left: auto; padding-left: .8em; flex: 0 0 auto; white-space: nowrap; }
+nav.toc .t { flex: 0 1 auto; min-width: 0; }
+nav.toc .dots { flex: 1 1 1.2em; min-width: 1.2em; margin: 0 .5em; border-bottom: .4pt dotted var(--line); transform: translateY(-.28em); }
+nav.toc .lv1 > a { font-size: 10.5pt; font-weight: 700; margin: 1.6em 0 .5em; }
+nav.toc .lv1 > a::after { content: none; }
+nav.toc .lv2 > a { font-size: 9.8pt; font-weight: 700; margin: .7em 0 .15em; }
+nav.toc .lv3 > a { font-size: 8.8pt; font-weight: 400; color: var(--ink-2); padding-left: 1.6em; margin: .15em 0; }
+
+/* ---------- 4부 원문 발췌 구역 ---------- */
+.part-4 blockquote { font-family: var(--font-body); }
+.part-4 h4, .part-4 h5 { color: var(--ink-2); }
+
+/* ---------- 그림 ---------- */
+figure { margin: 1.8em 0 2em; break-inside: avoid; }
+figure.map { margin: 2.2em 0 1.6em; }
+h1 + figure.map { page: part; margin-top: 16mm; }
+figure img, figure svg { display: block; width: 100%; max-width: 100%; height: auto; }
+figcaption { font-family: var(--font-head); font-size: 8.5pt; line-height: 1.6; color: var(--ink-2); margin-top: .9em; }
+figcaption .fig-no { font-family: var(--font-mono); font-size: 7pt; font-weight: 500; letter-spacing: .12em; color: var(--violet); margin-right: .7em; }
+
+/* ---------- 유틸 ---------- */
+.keep { break-inside: avoid; }
+img { max-width: 100%; }

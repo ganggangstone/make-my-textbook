@@ -1,0 +1,12 @@
+/* Korean: Noto Serif KR body, Pretendard headings; syllable-level line breaking in body text,
+   word-level (keep-all) in headings, tables and captions. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap");
+:root {
+  --font-body: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --font-head: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+  --font-mono: "JetBrains Mono", "Nanum Gothic Coding", Menlo, monospace;
+  --first-seen: "첫 등장 p.";
+}
+body { word-break: normal; hyphens: none; font-feature-settings: "palt"; }
+h1, h2, h3, h4, h5, figcaption, th, td, p.goal, div.review, nav.toc { word-break: keep-all; }
