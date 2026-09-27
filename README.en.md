@@ -6,7 +6,7 @@
 
 **Custom textbooks for the AI era, written for you.** Point it at code or a paper and it writes a study textbook pitched at your current level. Each sentence is marked as "in the source", "common knowledge", or "inferred", and quoted passages carry a footnote, so you can check where anything came from.
 
-A Claude Code skill (an instruction file Claude follows) made by a non-developer with a visual-design background, who was learning to code with AI and could not find a textbook that fit their level.
+It is a Claude Code skill (an instruction file Claude follows), made by a non-developer with a visual-design background who was learning to code with AI and could not find a textbook that fit their level.
 
 ## What it produces
 
@@ -42,8 +42,8 @@ People who need to understand code, papers, or official docs without a technical
 
 1. Put the repo in your skills folder: `git clone https://github.com/ganggangstone/make-my-textbook ~/.claude/skills/make-my-textbook`
 2. In Claude Code, type `/source-grounded-textbook`. Claude never starts it by itself, so you have to type it. If the command does not show up, press `/` and look for the skill in the list.
-3. Answer Claude's questions: what material to study, what you know now, how far you want to get. If you choose "start quickly", it asks only these and shows the defaults for the rest. A Markdown manuscript (a plain text file you can edit in Notepad) comes out, shaped by your answers.
-4. Ask for a PDF when you want one. You need Node.js 22.12 or later and an internet connection: fonts are downloaded, and a browser is downloaded the first time.
+3. Answer Claude's questions: what material to study, what you know now, how far you want to get. If you choose "start quickly", it asks only these questions and shows the defaults for the rest. Claude then writes a Markdown manuscript (a plain text file you can edit in Notepad) based on your answers.
+4. Ask for a PDF when you want one. You need Node.js 22.12 or later and an internet connection. It downloads fonts, plus a browser the first time.
 
 To use the English skill, run `cp SKILL.en.md SKILL.md` in the cloned folder. Claude Code reads only the file named `SKILL.md`.
 
@@ -64,16 +64,16 @@ To use the English skill, run `cp SKILL.en.md SKILL.md` in the cloned folder. Cl
 ## What's here
 
 - [`SKILL.md`](./SKILL.md): the skill (Korean, canonical). [`SKILL.en.md`](./SKILL.en.md) is the English edition.
-- [`pipeline/`](./pipeline/): the tool that turns a manuscript into a PDF. Accent colors are presets.
+- [`pipeline/`](./pipeline/): the tool that turns a manuscript into a PDF. You can pick an accent color.
 - [`examples/self-attention/`](./examples/self-attention/): the answers to the opening questions, the manuscripts, and the PDFs.
 
 ## Languages
 
-`SKILL.en.md` says the same things as the Korean file, rewritten the way English tutorials are written. When a rule changes, the Korean file is edited first and the English one follows. Both Korean and English manuscripts build to PDF; the per-language differences are in [`pipeline/README.md`](./pipeline/README.md).
+`SKILL.en.md` says the same things as the Korean file, rewritten as an English-style tutorial. When a rule changes, the Korean file is changed first and the English one is updated to match. Both Korean and English manuscripts build to PDF; the per-language differences are in [`pipeline/README.md`](./pipeline/README.md).
 
-To write in another language, tell Claude to write in it. The language settings the PDF needs are created by Claude, following the skill, by copying the English settings files. Korean manuscripts get one more pass with the stop-slop-ko skill to remove AI-sounding style; if it is not installed, the skill fetches its instructions from GitHub.
+To write in another language, tell Claude to write in it. Claude also makes the PDF settings for that language by copying the English ones. Korean manuscripts get one more pass with the stop-slop-ko skill to remove AI-sounding style; if it is not installed, the skill fetches its instructions from GitHub.
 
-**Only Korean and English have been tested.** Languages that use the Latin alphabet (Spanish, French, German) should work by copying the `en` profile and changing the labels, but I have not run them. Japanese, Chinese, and Arabic differ in line-breaking rules, fonts, and text direction, so they may need CSS work beyond the profile; this repository does not support them.
+**Only Korean and English have been tested.** Languages that use the Latin alphabet (Spanish, French, German) should work by copying the English settings file (`pipeline/lang/en.mjs`) and changing the labels, but they have not been tried. Japanese, Chinese, and Arabic differ in line-breaking rules, fonts, and text direction, so they may need CSS work beyond the language settings; this repository does not support them.
 
 ## Built with
 
