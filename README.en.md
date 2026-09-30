@@ -54,13 +54,6 @@ To use the English skill, run `cp SKILL.en.md SKILL.md` in the cloned folder. Cl
 - **It re-reads and fixes the draft.** The skill lists steps that hunt for undefined terms, statements that differ from the source, and skipped steps.
 - **The manuscript is a Markdown file**, so you can edit it and rebuild the PDF.
 
-## Limits today
-
-- It is a draft. The only person who has used it is its author.
-- The only example you can rebuild from this repository is one section of one paper. For code as the source, there are only the book pages above.
-- It asks 13 questions if you decide the details, or 4 on the quick path. The quick path has not been tried in a real conversation yet.
-- The install and run steps have not been tested on anyone else's computer.
-
 ## What's here
 
 - [`SKILL.md`](./SKILL.md): the skill (Korean, canonical). [`SKILL.en.md`](./SKILL.en.md) is the English edition.
@@ -73,7 +66,7 @@ To use the English skill, run `cp SKILL.en.md SKILL.md` in the cloned folder. Cl
 
 To write in another language, tell Claude to write in it. Claude also makes the PDF settings for that language by copying the English ones. Korean manuscripts get one more pass with the stop-slop-ko skill to remove AI-sounding style; if it is not installed, the skill fetches its instructions from GitHub.
 
-**Only Korean and English have been tested.** Languages that use the Latin alphabet (Spanish, French, German) should work by copying the English settings file (`pipeline/lang/en.mjs`) and changing the labels, but they have not been tried. Japanese, Chinese, and Arabic differ in line-breaking rules, fonts, and text direction, so they may need CSS work beyond the language settings; this repository does not support them.
+Only Korean and English have been tested. Japanese, Chinese, and Arabic differ in text direction and line breaking, so they may need more CSS work.
 
 ## Built with
 
